@@ -1,0 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Language {
+  C
+  CPP
+  JAVA
+  PYTHON
+  JAVASCRIPT
+}
+
+model Codeuser {
+  id          String   @id @default(cuid())
+  username    String
+  description String?
+  input       String?
+  language    Language
+  source_code String
+  token       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
