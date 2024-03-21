@@ -77,7 +77,9 @@ export function CodeSnippetsTable({ data }: CodeSnippetsTableProps) {
       accessorKey: "source_code",
       header: "Code",
       cell: ({ row }) => (
-        <pre>{(row.getValue("source_code") as string).slice(0, 100)}</pre>
+        <pre>
+          {(row.getValue("source_code") as string).trim().slice(0, 100)}
+        </pre>
       ),
     },
     {
@@ -150,7 +152,7 @@ export function CodeSnippetsTable({ data }: CodeSnippetsTableProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-1">
         <Input
           placeholder="Filter username..."
           value={
@@ -193,6 +195,7 @@ export function CodeSnippetsTable({ data }: CodeSnippetsTableProps) {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
+                <TableHead>no.</TableHead>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -210,11 +213,12 @@ export function CodeSnippetsTable({ data }: CodeSnippetsTableProps) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map((row, index) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
+                  <TableCell>{index + 1}</TableCell>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(

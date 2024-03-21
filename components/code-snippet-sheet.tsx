@@ -19,7 +19,7 @@ const CodeSnippetSheet = () => {
 
   return (
     <Sheet open={isOpen} onOpenChange={handleClose}>
-      <SheetContent className="w-[400px] sm:w-[540px] h-full overflow-auto">
+      <SheetContent className="w-72 sm:w-full h-full overflow-auto">
         <SheetHeader>
           <SheetTitle>Code Snippet</SheetTitle>
           <SheetDescription>

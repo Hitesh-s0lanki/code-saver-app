@@ -1,6 +1,6 @@
 "use server";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const options: any = {
     method: 'POST',
@@ -26,7 +26,6 @@ const options: any = {
 
 export const RunCode = async (language_id: number, source_code: string, stdin?: string | null) => {
     try {
-        console.log(source_code)
 
         if (!source_code || !language_id) {
             throw new Error("Source is required")
@@ -58,6 +57,13 @@ export const RunCode = async (language_id: number, source_code: string, stdin?: 
             }
         }
     } catch (error) {
+
+        if (axios.isAxiosError(error)) {
+            if (error.response?.status === 400) {
+                throw new Error("Check the Programming Language! or Your Program is in loop")
+            }
+        }
+
         throw error
     }
 }

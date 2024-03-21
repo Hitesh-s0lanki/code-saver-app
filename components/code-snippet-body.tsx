@@ -107,8 +107,10 @@ const CodeSnippetBody = () => {
   useEffect(() => {
     getCodeSnippet();
   }, [getCodeSnippet]);
-  if (id === null || !codeSnippet) return null;
+
   if (loading) return <Loading />;
+
+  if (id === null || !codeSnippet) return null;
 
   return (
     <div className="w-full flex flex-col py-2 gap-3">

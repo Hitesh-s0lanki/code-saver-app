@@ -14,6 +14,21 @@ pnpm dev
 bun dev
 ```
 
+## add .env
+
+```bash
+
+use neon database https://neon.tech/
+DATABASE_URL=
+DIRECT_URL=
+
+redis Cloud
+REDIS_URL=
+
+Rapid Api https://judge0.com/
+JUDGE_API=
+```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

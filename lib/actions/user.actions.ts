@@ -45,10 +45,30 @@ export const createCodeSnippet = async ({
                 description,
                 input,
                 token,
-                source_code,
+                source_code: source_code.trim(),
                 language: getLanguageEnum(language)
             }
         })
+
+        const client = createClient({
+            url: REDIS_URL
+        });
+
+        client.on('error', err => console.log('Redis Client Error', err));
+
+        await client.connect();
+
+        const exists = await client.exists('codeSnippets')
+
+        let CodeSnippets: string[] = []
+
+        if (exists) {
+            CodeSnippets = await client.lRange('codeSnippets', 0, -1)
+        }
+
+        await client.rPush('codeSnippets', [JSON.stringify(CodeSnippet), ...CodeSnippets])
+        //after 2 min
+        await client.expire('codeSnippets', 120)
 
         return CodeSnippet
     } catch (error) {
@@ -77,11 +97,9 @@ export const getAllCodeSnippets = async () => {
 
         const codeSnippets = await db.codeuser.findMany()
 
-        if (!exists) {
-            await client.rPush('codeSnippets', codeSnippets.map((e) => JSON.stringify(e)))
-            //after 2 min
-            await client.expire('codeSnippets', 120)
-        }
+        await client.rPush('codeSnippets', codeSnippets.map((e) => JSON.stringify(e)))
+        //after 2 min
+        await client.expire('codeSnippets', 120)
 
         return codeSnippets
     } catch (error) {
